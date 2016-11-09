@@ -1,0 +1,61 @@
+0.  0. What is pneumonoultramicroscopicsilicovolcanoconiosis?
+A: A lung disease caused by the inhalation of very fine silica dust, causing 
+   inflammation in the lungs.
+   
+1. According to its man page, what does getrusage do?
+A: It returns resource usage measures for a process(es), like CPU time and memory used.
+
+2. Per that same man page, how many members are in a variable of type struct rusage ?
+A: There are 16 members in a structure.
+
+3. Why do you think we pass before and after by reference (instead of by value) to 
+   calculate , even though we’re not changing their contents?
+A: If we pass them by value, whole two structures will be copied into 'calculate'
+   - that's a waisting of time and resources.
+
+4. Explain as precisely as possible, in a paragraph or more, how main goes about reading
+   words from a file. In other words, convince us that you indeed understand how that 
+   function’s for loop works.
+A: After loading a textfile and a dictionary, main() function starts reading a text 
+   symbol-by-symbol, with a goal of constructing separate words. A word is completed
+   when one or more alphabetic symbols are read, and we encounted a non-alphanumeric 
+   character (like spacebar, or newline). Then we check our word for misspellings, 
+   reset the word index to zero, and continue the symbol reading loop. If we encounter 
+   a digit, or a string tends to be too long, we traverse this word in the text, but we
+   won't check it for misspellings.
+
+5. Why do you think we used fgetc to read each word’s characters one at a time rather
+   than use fscanf with a format string like "%s" to read whole words at a time?
+   Put another way, what problems might arise by relying on fscanf alone?
+A: There are several problems with fscanf - first, you must allocate a memory for a 
+   string before reading it from file, and there are no limits of a length of a word 
+   in a text file. Also you can't write program logic for skipping alphanumeric words, 
+   like this implementation of speller has. Overall, this approach gives us much less 
+   flexibility.
+
+6. Why do you think we declared the parameters for check and load as const ?
+A: Those parameters are never intented to be modified in the functions, so we wrote an 
+    other layer of ensuring this behavior.
+
+7.  What data structure(s) did you use to implement your spell-checker?
+    Be sure not to leave your answer at just "hash table," "trie," or the like.
+    Expound on what’s inside each of your "nodes."
+A:  I used a trie data structure to implement load() and check(). I created a struct 
+    called "node" that contained an array of 27 pointers, corresponding to each
+    letter of the alphabet plus one additional on the end to handle apostrophes, and
+    a bool called is word, which would flag whether the node represented the
+    end of a word in the dictionary. Letters were mapped to the various arrays by 
+    converting all letters tolower() and subtracting the ASCII value of 'a' so that
+    a=0, b=1, c=2... 
+
+8.  How slow was your code the first time you got it working correctly?
+A:  Check and size were quick from the start (0.00 and .0.02 respectively), but load
+    and unload had issues (load between 0.06 and 0.02 and unload steady around 0.09).
+
+9.  What kinds of changes, if any, did you make to your code in order to improve its
+    performance? 
+A:  I was not able to find information (that I could understand, anyway) on the 
+    internet with regard to optimizing loading of a trie.
+
+10. Do you feel that your code has any bottlenecks that you were not able to chip away at?
+A:  Possibly bottlenecks are, but at the moment I have no ideas concerning optimization.
